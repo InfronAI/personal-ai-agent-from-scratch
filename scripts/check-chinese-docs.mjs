@@ -6,12 +6,12 @@ const root = fileURLToPath(new URL("..", import.meta.url));
 const markdownRoots = [
   resolve(root, "AGENTS.md"),
   resolve(root, "README.md"),
-  resolve(root, "README.zh-CN.md"),
+  resolve(root, "README.en.md"),
   resolve(root, "docs"),
   resolve(root, "evals/README.md"),
   resolve(root, "evals/baselines/current.md")
 ];
-const englishMarkdownPaths = new Set([resolve(root, "README.md")]);
+const englishMarkdownPaths = new Set([resolve(root, "README.en.md")]);
 const sourceRoots = [root];
 const sourceExtensions = new Set([".js", ".mjs", ".css", ".html"]);
 const namingExtensions = new Set([".js", ".mjs", ".css", ".html", ".md", ".json", ".jsonl"]);
@@ -153,8 +153,8 @@ function checkDerivedFacts() {
   const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
   const explicitModelCount = catalog.models.filter(model => model.kind === "answer-model").length;
   const modelCatalogStatements = [
-    ["README.md", `\`Auto\` and ${explicitModelCount} explicit answer models`],
-    ["README.zh-CN.md", `Auto\` 与 ${explicitModelCount} 个显式`],
+    ["README.md", `Auto\` 与 ${explicitModelCount} 个显式`],
+    ["README.en.md", `\`Auto\` and ${explicitModelCount} explicit answer models`],
     ["docs/PRODUCT.md", `Auto\` 与 ${explicitModelCount} 个显式`]
   ];
   for (const [relativePath, expectedStatement] of modelCatalogStatements) {
@@ -166,7 +166,7 @@ function checkDerivedFacts() {
 
   const routing = JSON.parse(readFileSync(resolve(root, "config/routing.config.json"), "utf8"));
   const intentionModel = routing.deploymentRouting.profiles["llm-primary"].modelAliases["intention-fast"];
-  for (const relativePath of ["README.md", "README.zh-CN.md", "docs/TECHNICAL_DESIGN.md", "docs/ENGINEERING.md", "docs/DECISIONS.md"]) {
+  for (const relativePath of ["README.md", "README.en.md", "docs/TECHNICAL_DESIGN.md", "docs/ENGINEERING.md", "docs/DECISIONS.md"]) {
     const path = resolve(root, relativePath);
     if (!readFileSync(path, "utf8").includes(intentionModel)) {
       failures.push({ path, line: null, value: `应说明当前默认 Intention 模型 ${intentionModel}` });
