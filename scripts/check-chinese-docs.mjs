@@ -6,10 +6,12 @@ const root = fileURLToPath(new URL("..", import.meta.url));
 const markdownRoots = [
   resolve(root, "AGENTS.md"),
   resolve(root, "README.md"),
+  resolve(root, "README.zh-CN.md"),
   resolve(root, "docs"),
   resolve(root, "evals/README.md"),
   resolve(root, "evals/baselines/current.md")
 ];
+const englishMarkdownPaths = new Set([resolve(root, "README.md")]);
 const sourceRoots = [root];
 const sourceExtensions = new Set([".js", ".mjs", ".css", ".html"]);
 const namingExtensions = new Set([".js", ".mjs", ".css", ".html", ".md", ".json", ".jsonl"]);
@@ -47,6 +49,7 @@ function isEnglishParagraph(value) {
 }
 
 function checkMarkdown(path) {
+  if (englishMarkdownPaths.has(path)) return [];
   const failures = [];
   let inFence = false;
   const lines = readFileSync(path, "utf8").split(/\r?\n/u);
@@ -149,16 +152,21 @@ function checkDerivedFacts() {
   const catalogPath = resolve(root, "config/model-catalog.config.json");
   const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
   const explicitModelCount = catalog.models.filter(model => model.kind === "answer-model").length;
-  for (const relativePath of ["README.md", "docs/PRODUCT.md"]) {
+  const modelCatalogStatements = [
+    ["README.md", `\`Auto\` and ${explicitModelCount} explicit answer models`],
+    ["README.zh-CN.md", `Auto\` 与 ${explicitModelCount} 个显式`],
+    ["docs/PRODUCT.md", `Auto\` 与 ${explicitModelCount} 个显式`]
+  ];
+  for (const [relativePath, expectedStatement] of modelCatalogStatements) {
     const path = resolve(root, relativePath);
-    if (!readFileSync(path, "utf8").includes(`Auto\` 与 ${explicitModelCount} 个显式`)) {
+    if (!readFileSync(path, "utf8").includes(expectedStatement)) {
       failures.push({ path, line: null, value: `模型目录说明应包含 Auto 与 ${explicitModelCount} 个显式模型` });
     }
   }
 
   const routing = JSON.parse(readFileSync(resolve(root, "config/routing.config.json"), "utf8"));
   const intentionModel = routing.deploymentRouting.profiles["llm-primary"].modelAliases["intention-fast"];
-  for (const relativePath of ["README.md", "docs/TECHNICAL_DESIGN.md", "docs/ENGINEERING.md", "docs/DECISIONS.md"]) {
+  for (const relativePath of ["README.md", "README.zh-CN.md", "docs/TECHNICAL_DESIGN.md", "docs/ENGINEERING.md", "docs/DECISIONS.md"]) {
     const path = resolve(root, relativePath);
     if (!readFileSync(path, "utf8").includes(intentionModel)) {
       failures.push({ path, line: null, value: `应说明当前默认 Intention 模型 ${intentionModel}` });
@@ -215,4 +223,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-process.stdout.write(`中文文档与注释检查通过：${markdownFiles.length} 个文档，${sourceFiles.length} 个源码文件。\n`);
+process.stdout.write(`中英文 README、中文文档与注释检查通过：${markdownFiles.length} 个文档，${sourceFiles.length} 个源码文件。\n`);
