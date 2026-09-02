@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://personal-copilot.local/schemas/copilot-eval-result.v1.json",
+  "title": "Personal Copilot Eval 结果 v1",
+  "type": "object",
+  "required": ["schemaVersion", "runId", "mode", "startedAt", "endedAt", "project", "configuration", "dataset", "summary", "cases", "checks"],
+  "properties": {
+    "schemaVersion": {"const": "copilot-eval-result.v1"},
+    "runId": {"type": "string"},
+    "mode": {"enum": ["offline-scripted", "live"]},
+    "startedAt": {"type": "string", "format": "date-time"},
+    "endedAt": {"type": "string", "format": "date-time"},
+    "project": {"const": "personal-copilot-from-scratch"},
+    "configuration": {
+      "type": "object",
+      "required": ["schemaVersion", "profile", "fingerprint", "effectiveFingerprint", "datasetIds", "selectors", "failSeverities", "diagnosticDebtRatchet"],
+      "properties": {
+        "schemaVersion": {"const": "copilot-eval-config.v1"},
+        "profile": {"type": "string"},
+        "fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "effectiveFingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "datasetIds": {"type": "array", "items": {"type": "string"}},
+        "selectors": {"type": "object"},
+        "failSeverities": {"type": "array", "items": {"enum": ["blocking", "diagnostic"]}},
+        "diagnosticDebtRatchet": {"type": "boolean"}
+      }
+    },
+    "dataset": {
+      "type": "object",
+      "required": ["items", "fingerprint", "configuredDatasets", "datasets", "taskTypes", "risks", "sources", "labelStatuses"],
+      "properties": {
+        "items": {"type": "integer", "minimum": 1},
+        "fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "configuredDatasets": {"type": "object"},
+        "datasets": {"type": "object"},
+        "taskTypes": {"type": "object"},
+        "risks": {"type": "object"},
+        "sources": {"type": "object"},
+        "labelStatuses": {"type": "object"}
+      }
+    },
+    "summary": {"type": "object"},
+    "cases": {"type": "array"},
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["scopeId", "evaluator", "evaluatorVersion", "severity", "status", "score", "reason"],
+        "properties": {
+          "scopeId": {"type": "string"},
+          "evaluator": {"type": "string"},
+          "evaluatorVersion": {"type": "string"},
+          "severity": {"enum": ["blocking", "diagnostic"]},
+          "status": {"enum": ["pass", "fail", "error", "skip"]},
+          "score": {"type": "number", "minimum": 0, "maximum": 1},
+          "reason": {"type": "string"}
+        }
+      }
+    }
+  }
+}

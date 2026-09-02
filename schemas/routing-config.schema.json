@@ -1,0 +1,235 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://personal-copilot.local/schemas/routing-config.v3.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "intentRouting", "agentRouting", "modelRouting", "deploymentRouting"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schemaVersion": {"const": "copilot-routing-config.v3"},
+    "intentRouting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "defaultOutput", "formatPatterns", "rules"],
+      "properties": {
+        "version": {"type": "string", "minLength": 1},
+        "defaultOutput": {"$ref": "#/$defs/intentOutput"},
+        "formatPatterns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["format", "pattern"],
+            "properties": {
+              "format": {"type": "string", "minLength": 1},
+              "pattern": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "enabled", "priority", "match", "output"],
+            "properties": {
+              "id": {"$ref": "#/$defs/id"},
+              "enabled": {"type": "boolean"},
+              "priority": {"type": "integer"},
+              "match": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["pattern"],
+                "properties": {"pattern": {"type": "string", "minLength": 1}}
+              },
+              "output": {"$ref": "#/$defs/intentOutput"}
+            }
+          }
+        }
+      }
+    },
+    "agentRouting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "rootAgentId", "invalidProposalFallback", "rules"],
+      "properties": {
+        "version": {"type": "string", "minLength": 1},
+        "rootAgentId": {"$ref": "#/$defs/id"},
+        "invalidProposalFallback": {"enum": ["direct", "continue"]},
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "enabled", "priority", "when", "targetAgentId", "enforcement"],
+            "properties": {
+              "id": {"$ref": "#/$defs/id"},
+              "enabled": {"type": "boolean"},
+              "priority": {"type": "integer"},
+              "when": {"$ref": "#/$defs/conditions"},
+              "targetAgentId": {"$ref": "#/$defs/id"},
+              "enforcement": {"enum": ["required", "preferred"]}
+            }
+          }
+        }
+      }
+    },
+    "modelRouting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "selectionStrategy", "scoring", "defaultPolicyId", "policies", "rules"],
+      "properties": {
+        "version": {"type": "string", "minLength": 1},
+        "selectionStrategy": {"const": "hybrid-score"},
+        "scoring": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["weights", "neutralEvidenceScore", "minimumObservations", "ewmaAlpha", "latencyTargetMs", "latencyCeilingMs", "circuitBreaker", "exploration"],
+          "properties": {
+            "weights": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["policyPriority", "reliability", "latency"],
+              "properties": {
+                "policyPriority": {"type": "number", "minimum": 0, "maximum": 1},
+                "reliability": {"type": "number", "minimum": 0, "maximum": 1},
+                "latency": {"type": "number", "minimum": 0, "maximum": 1}
+              }
+            },
+            "neutralEvidenceScore": {"type": "number", "minimum": 0, "maximum": 1},
+            "minimumObservations": {"type": "integer", "minimum": 1, "maximum": 10000},
+            "ewmaAlpha": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+            "latencyTargetMs": {"type": "integer", "minimum": 1},
+            "latencyCeilingMs": {"type": "integer", "minimum": 2},
+            "circuitBreaker": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["failureThreshold", "cooldownMs"],
+              "properties": {
+                "failureThreshold": {"type": "integer", "minimum": 1, "maximum": 100},
+                "cooldownMs": {"type": "integer", "minimum": 1000, "maximum": 3600000}
+              }
+            },
+            "exploration": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["enabled", "rate"],
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "rate": {"type": "number", "minimum": 0, "maximum": 0.2}
+              }
+            }
+          }
+        },
+        "defaultPolicyId": {"$ref": "#/$defs/id"},
+        "policies": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["candidateModelAliases", "temperature", "maxTokens"],
+            "properties": {
+              "candidateModelAliases": {"$ref": "#/$defs/stringArray"},
+              "temperature": {"type": "number", "minimum": 0, "maximum": 2},
+              "maxTokens": {"type": "integer", "minimum": 1}
+            }
+          }
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "enabled", "priority", "when", "policyId"],
+            "properties": {
+              "id": {"$ref": "#/$defs/id"},
+              "enabled": {"type": "boolean"},
+              "priority": {"type": "integer"},
+              "when": {"$ref": "#/$defs/conditions"},
+              "policyId": {"$ref": "#/$defs/id"}
+            }
+          }
+        }
+      }
+    },
+    "deploymentRouting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "profiles", "rules"],
+      "properties": {
+        "version": {"type": "string", "minLength": 1},
+        "profiles": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "baseUrlEnv", "apiKeyEnv", "defaultBaseUrl", "modelAliases", "modelAliasEnvs"],
+            "properties": {
+              "kind": {"type": "string", "minLength": 1},
+              "baseUrlEnv": {"$ref": "#/$defs/environmentName"},
+              "apiKeyEnv": {"$ref": "#/$defs/environmentName"},
+              "defaultBaseUrl": {"type": "string", "format": "uri"},
+              "modelAliases": {"type": "object", "additionalProperties": {"type": "string", "minLength": 1}},
+              "modelAliasEnvs": {"type": "object", "additionalProperties": {"$ref": "#/$defs/environmentName"}}
+            }
+          }
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "enabled", "priority", "when", "profileId"],
+            "properties": {
+              "id": {"$ref": "#/$defs/id"},
+              "enabled": {"type": "boolean"},
+              "priority": {"type": "integer"},
+              "when": {"$ref": "#/$defs/conditions"},
+              "profileId": {"$ref": "#/$defs/id"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,63}$"},
+    "environmentName": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"},
+    "stringArray": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "intentOutput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["domain", "taskType", "risk", "requiredCapabilities", "requiresFreshData"],
+      "properties": {
+        "domain": {"type": "string", "minLength": 1},
+        "taskType": {"type": "string", "minLength": 1},
+        "risk": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["level", "reason"],
+          "properties": {
+            "level": {"enum": ["low", "medium", "high"]},
+            "reason": {"type": "string", "minLength": 1}
+          }
+        },
+        "requiredCapabilities": {"$ref": "#/$defs/stringArray"},
+        "requiresFreshData": {"type": "boolean"}
+      }
+    },
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "roles": {"$ref": "#/$defs/stringArray"},
+        "intentRuleIds": {"$ref": "#/$defs/stringArray"},
+        "domains": {"$ref": "#/$defs/stringArray"},
+        "taskTypes": {"$ref": "#/$defs/stringArray"},
+        "riskLevels": {"type": "array", "items": {"enum": ["low", "medium", "high"]}, "uniqueItems": true},
+        "agentIds": {"$ref": "#/$defs/stringArray"},
+        "workloads": {"$ref": "#/$defs/stringArray"}
+      }
+    }
+  }
+}

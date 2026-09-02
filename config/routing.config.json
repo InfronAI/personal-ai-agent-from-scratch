@@ -1,0 +1,232 @@
+{
+  "$schema": "../schemas/routing-config.schema.json",
+  "schemaVersion": "copilot-routing-config.v3",
+  "intentRouting": {
+    "version": "intent-routing.v2",
+    "defaultOutput": {
+      "domain": "general",
+      "taskType": "general_assistance",
+      "risk": {"level": "low", "reason": "default"},
+      "requiredCapabilities": [],
+      "requiresFreshData": false
+    },
+    "formatPatterns": [
+      {"format": "docx", "pattern": "\\bdocx\\b|\\bword\\b|可编辑文档"},
+      {"format": "pdf", "pattern": "\\bpdf\\b"},
+      {"format": "json", "pattern": "\\bjson\\b"},
+      {"format": "markdown", "pattern": "\\bmarkdown\\b|\\bmd\\b"}
+    ],
+    "rules": [
+      {
+        "id": "explicit-document-generation",
+        "enabled": true,
+        "priority": 100,
+        "match": {"pattern": "(?=.*(?:生成|制作|创建|整理成|导出|generate|create|write|export))(?=.*(?:pdf|docx|word|文档|报告|简历|提案))"},
+        "output": {
+          "domain": "document",
+          "taskType": "document_generation",
+          "risk": {"level": "low", "reason": "content-generation"},
+          "requiredCapabilities": ["generate_pdf", "generate_docx"],
+          "requiresFreshData": false
+        }
+      },
+      {
+        "id": "medical-health-request",
+        "enabled": true,
+        "priority": 90,
+        "match": {"pattern": "症状|疼痛|头痛|发烧|用药|药物|诊断|医生|医疗|健康问题|眼睛|眼疲劳|酸胀|干眼|视力|胸(?:口|部)?(?:痛|疼|压迫|压榨)|冷汗|抗生素|喉咙痛|头晕|眩晕|心悸|昏厥|hba1c|血糖|symptom|diagnos|medication|doctor|medical|health issue|eye strain|dry eye|vision|chest (?:pain|pressure)|dizziness|antibiotic"},
+        "output": {
+          "domain": "health",
+          "taskType": "medical_guidance",
+          "risk": {"level": "high", "reason": "health-advice"},
+          "requiredCapabilities": ["TavilySearchTool"],
+          "requiresFreshData": true
+        }
+      },
+      {
+        "id": "high-risk-financial-advice",
+        "enabled": true,
+        "priority": 85,
+        "match": {"pattern": "借钱|借款|全仓|保证.*(?:上涨|收益|赚钱)|稳赚|财务建议|投资建议|leverage|borrow.*(?:invest|trade)|guarantee.*(?:return|profit)|all[- ]?in"},
+        "output": {
+          "domain": "finance",
+          "taskType": "financial_guidance",
+          "risk": {"level": "high", "reason": "high-risk-financial-advice"},
+          "requiredCapabilities": ["TavilySearchTool"],
+          "requiresFreshData": true
+        }
+      },
+      {
+        "id": "financial-document-analysis",
+        "enabled": true,
+        "priority": 82,
+        "match": {"pattern": "年报|财务报表|原始披露|10[- ]?k|10[- ]?q|annual report|financial statement|(?:资本开支|营业利润率|毛利率|净利率|operating margin|capital expenditure).*(?:证据|来源|披露|官方|核对|查找|搜索)|(?:证据|来源|披露|官方|核对|查找|搜索).*(?:资本开支|营业利润率|毛利率|净利率|operating margin|capital expenditure)"},
+        "output": {
+          "domain": "finance",
+          "taskType": "financial_analysis",
+          "risk": {"level": "medium", "reason": "financial-document-analysis"},
+          "requiredCapabilities": ["TavilySearchTool"],
+          "requiresFreshData": true
+        }
+      },
+      {
+        "id": "software-engineering-request",
+        "enabled": true,
+        "priority": 80,
+        "match": {"pattern": "调试|报错|修复.*(?:代码|示例)|代码审查|写代码|实现接口|生成\\s*sql|text[- ]?to[- ]?sql|debug|stack trace|code review|fix (?:this )?code|implement .*?(?:api|function|class)|\\bbug\\b|\\bsql\\b"},
+        "output": {
+          "domain": "software_engineering",
+          "taskType": "software_engineering",
+          "risk": {"level": "medium", "reason": "code-change"},
+          "requiredCapabilities": ["TavilySearchTool"],
+          "requiresFreshData": false
+        }
+      },
+      {
+        "id": "fresh-external-information",
+        "enabled": true,
+        "priority": 70,
+        "match": {"pattern": "最新(?:的)?(?:版本|发布|消息|新闻|价格|数据|结果|运行状态|公告|资料|信息)|最近.*(?:调整|更新|变更)|当前有效公告|当前价格|实时|新闻|天气|股价|汇率|搜索|查找|查出|找出|查询.*(?:最新|当前|官方|公开|实时|新闻|天气|价格|股价|汇率|版本|状态)|检索|核实|核对|确认.*(?:用户数|来源|版本|状态|时间|额度)|官方来源|证据来源|发布说明|仓库标签|今天(?:的)?(?:新闻|天气|比赛|价格|股价)|latest|today(?:'s)? (?:news|weather|score|price)|current (?:price|news|weather)|real[- ]?time|stock price|exchange rate|search (?:for|the web)|verify online"},
+        "output": {
+          "domain": "research",
+          "taskType": "current_information_retrieval",
+          "risk": {"level": "medium", "reason": "freshness-dependent"},
+          "requiredCapabilities": ["TavilySearchTool"],
+          "requiresFreshData": true
+        }
+      },
+      {
+        "id": "analysis-decision-support",
+        "enabled": true,
+        "priority": 30,
+        "match": {"pattern": "分析|研判|权衡|利弊|比较.*(?:差异|方案)|做决策|选择.*方案|决策建议|analy[sz]e|trade[- ]?off|pros and cons|compare .* (?:versus|vs)"},
+        "output": {
+          "domain": "analysis",
+          "taskType": "analysis_decision_support",
+          "risk": {"level": "low", "reason": "analysis"},
+          "requiredCapabilities": [],
+          "requiresFreshData": false
+        }
+      },
+      {
+        "id": "concept-teaching",
+        "enabled": true,
+        "priority": 20,
+        "match": {"pattern": "解释|讲解|原理|为什么|如何理解|什么是|teach me|explain|how does .* work|what is"},
+        "output": {
+          "domain": "education",
+          "taskType": "concept_explanation",
+          "risk": {"level": "low", "reason": "education"},
+          "requiredCapabilities": [],
+          "requiresFreshData": false
+        }
+      }
+    ]
+  },
+  "agentRouting": {
+    "version": "agent-routing.v2",
+    "rootAgentId": "copilot",
+    "invalidProposalFallback": "direct",
+    "rules": [
+      {"id": "document-specialist", "enabled": true, "priority": 100, "when": {"intentRuleIds": ["explicit-document-generation"]}, "targetAgentId": "document_generator_assistant", "enforcement": "required"},
+      {"id": "medical-specialist", "enabled": true, "priority": 90, "when": {"intentRuleIds": ["medical-health-request"]}, "targetAgentId": "medical_assistant", "enforcement": "required"},
+      {"id": "financial-research-specialist", "enabled": true, "priority": 85, "when": {"intentRuleIds": ["high-risk-financial-advice"]}, "targetAgentId": "research_assistant", "enforcement": "required"},
+      {"id": "financial-analysis-research-specialist", "enabled": true, "priority": 82, "when": {"intentRuleIds": ["financial-document-analysis"]}, "targetAgentId": "research_assistant", "enforcement": "required"},
+      {"id": "software-specialist", "enabled": true, "priority": 80, "when": {"intentRuleIds": ["software-engineering-request"]}, "targetAgentId": "software_development_assistant", "enforcement": "required"},
+      {"id": "research-specialist", "enabled": true, "priority": 70, "when": {"intentRuleIds": ["fresh-external-information"]}, "targetAgentId": "research_assistant", "enforcement": "required"},
+      {"id": "analysis-specialist", "enabled": true, "priority": 30, "when": {"intentRuleIds": ["analysis-decision-support"]}, "targetAgentId": "analyst", "enforcement": "preferred"},
+      {"id": "teaching-specialist", "enabled": true, "priority": 20, "when": {"intentRuleIds": ["concept-teaching"]}, "targetAgentId": "teaching_assistant", "enforcement": "preferred"}
+    ]
+  },
+  "modelRouting": {
+    "version": "model-routing.v3",
+    "selectionStrategy": "hybrid-score",
+    "scoring": {
+      "weights": {
+        "policyPriority": 0.55,
+        "reliability": 0.25,
+        "latency": 0.2
+      },
+      "neutralEvidenceScore": 0.5,
+      "minimumObservations": 4,
+      "ewmaAlpha": 0.25,
+      "latencyTargetMs": 2500,
+      "latencyCeilingMs": 30000,
+      "circuitBreaker": {
+        "failureThreshold": 3,
+        "cooldownMs": 60000
+      },
+      "exploration": {
+        "enabled": false,
+        "rate": 0
+      }
+    },
+    "defaultPolicyId": "direct-low-latency",
+    "policies": {
+      "intent-fast": {"candidateModelAliases": ["intention-fast"], "temperature": 0, "maxTokens": 1200},
+      "direct-low-latency": {"candidateModelAliases": ["gemini-3-1-flash-lite", "gpt-5-4-mini"], "temperature": 0, "maxTokens": 1200},
+      "specialist-balanced": {"candidateModelAliases": ["gpt-5-4-mini", "gemini-3-1-flash-lite"], "temperature": 0, "maxTokens": 1600},
+      "specialist-high-assurance": {"candidateModelAliases": ["gpt-5-4", "gemini-3-1-pro-preview", "gemini-3-1-flash-lite"], "temperature": 0, "maxTokens": 1800},
+      "specialist-software": {"candidateModelAliases": ["gpt-5-4", "gemini-3-1-pro-preview"], "temperature": 0, "maxTokens": 1800},
+      "specialist-research": {"candidateModelAliases": ["gemini-3-1-pro-preview", "claude-sonnet-4-6", "gemini-3-1-flash-lite"], "temperature": 0, "maxTokens": 1800},
+      "specialist-analysis": {"candidateModelAliases": ["claude-sonnet-4-6", "gpt-5-4", "gemini-3-1-pro-preview"], "temperature": 0, "maxTokens": 1800},
+      "specialist-document": {"candidateModelAliases": ["claude-sonnet-4-6", "gpt-5-4", "gemini-3-1-pro-preview"], "temperature": 0, "maxTokens": 2200},
+      "specialist-teaching": {"candidateModelAliases": ["gpt-5-4-mini", "gemini-3-1-flash-lite"], "temperature": 0, "maxTokens": 1600}
+    },
+    "rules": [
+      {"id": "intent-model", "enabled": true, "priority": 1000, "when": {"roles": ["intent"]}, "policyId": "intent-fast"},
+      {"id": "high-risk-model", "enabled": true, "priority": 900, "when": {"roles": ["specialist"], "riskLevels": ["high"]}, "policyId": "specialist-high-assurance"},
+      {"id": "document-model", "enabled": true, "priority": 850, "when": {"roles": ["specialist"], "agentIds": ["document_generator_assistant"]}, "policyId": "specialist-document"},
+      {"id": "software-model", "enabled": true, "priority": 800, "when": {"roles": ["specialist"], "agentIds": ["software_development_assistant"]}, "policyId": "specialist-software"},
+      {"id": "research-model", "enabled": true, "priority": 700, "when": {"roles": ["specialist"], "agentIds": ["research_assistant"]}, "policyId": "specialist-research"},
+      {"id": "analysis-model", "enabled": true, "priority": 600, "when": {"roles": ["specialist"], "agentIds": ["analyst"]}, "policyId": "specialist-analysis"},
+      {"id": "teaching-model", "enabled": true, "priority": 500, "when": {"roles": ["specialist"], "agentIds": ["teaching_assistant"]}, "policyId": "specialist-teaching"},
+      {"id": "specialist-model", "enabled": true, "priority": 100, "when": {"roles": ["specialist"]}, "policyId": "specialist-balanced"},
+      {"id": "direct-model", "enabled": true, "priority": 100, "when": {"roles": ["direct"]}, "policyId": "direct-low-latency"}
+    ]
+  },
+  "deploymentRouting": {
+    "version": "deployment-routing.v2",
+    "profiles": {
+      "llm-primary": {
+        "kind": "openai-compatible",
+        "baseUrlEnv": "LLM_GATEWAY_BASE_URL",
+        "apiKeyEnv": "LLM_GATEWAY_API_KEY",
+        "defaultBaseUrl": "https://llm.onerouter.pro/v1",
+        "modelAliases": {
+          "intention-fast": "google/gemini-3.1-flash-lite",
+          "gemini-3-1-flash-lite": "google/gemini-3.1-flash-lite",
+          "gemini-3-1-pro-preview": "google/gemini-3.1-pro-preview",
+          "gpt-5-4-mini": "openai/gpt-5.4-mini",
+          "gpt-5-4": "openai/gpt-5.4",
+          "gpt-5-5": "openai/gpt-5.5",
+          "claude-sonnet-4-6": "anthropic/claude-sonnet-4.6",
+          "claude-opus-4-8": "anthropic/claude-opus-4.8",
+          "deepseek-v4-flash": "deepseek/deepseek-v4-flash",
+          "deepseek-v4-pro": "deepseek/deepseek-v4-pro",
+          "qwen-3-6-plus": "qwen/qwen3.6-plus",
+          "kimi-k2-6": "moonshotai/kimi-k2.6",
+          "minimax-m3": "minimax/minimax-m3",
+          "glm-5-2": "z-ai/glm-5.2",
+          "grok-4-3": "x-ai/grok-4.3",
+          "qwen3-coder-next": "qwen/qwen3-coder-next"
+        },
+        "modelAliasEnvs": {
+          "intention-fast": "LLM_GATEWAY_INTENTION_MODEL"
+        }
+      },
+      "search-primary": {
+        "kind": "tavily-compatible",
+        "baseUrlEnv": "WEB_SEARCH_BASE_URL",
+        "apiKeyEnv": "WEB_SEARCH_API_KEY",
+        "defaultBaseUrl": "https://search.onerouter.pro/v1/tavily",
+        "modelAliases": {},
+        "modelAliasEnvs": {}
+      }
+    },
+    "rules": [
+      {"id": "llm-primary-route", "enabled": true, "priority": 100, "when": {"workloads": ["llm"]}, "profileId": "llm-primary"},
+      {"id": "search-primary-route", "enabled": true, "priority": 100, "when": {"workloads": ["search"]}, "profileId": "search-primary"}
+    ]
+  }
+}

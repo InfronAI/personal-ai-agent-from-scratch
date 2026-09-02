@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://personal-copilot.local/schemas/product-config.v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "productId", "displayName", "serviceName", "serviceNamespace", "description"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schemaVersion": {"const": "personal-copilot-product.v1"},
+    "productId": {"type": "string", "minLength": 1},
+    "displayName": {"type": "string", "minLength": 1},
+    "serviceName": {"type": "string", "minLength": 1},
+    "serviceNamespace": {"type": "string", "minLength": 1},
+    "description": {"type": "string", "minLength": 1}
+  }
+}

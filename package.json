@@ -1,0 +1,47 @@
+{
+  "name": "personal-ai-agent-from-scratch",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --import ./instrumentation.mjs server.mjs",
+    "start": "node --import ./instrumentation.mjs server.mjs",
+    "check": "node --check instrumentation.mjs && node --check server.mjs && node --check identity.mjs && node --check user-store.mjs && node --check onboarding-store.mjs && node --check runtime-settings.mjs && node --check setup-service.mjs && node --check memory-policy.mjs && node --check memory-store.mjs && node --check evaluation-evidence-store.mjs && node --check eval-dataset-catalog.mjs && node --check eval-run-store.mjs && node --check eval-run-service.mjs && node --check model-catalog.mjs && node --check artifacts/artifact-store.mjs && node --check routing/model-router.mjs && node --check agent-runtime.mjs && node --check app.js && node --check evals/run.mjs && node --check evals/validate.mjs && node --check evals/accept-baseline.mjs && node --check evals/compare.mjs && node --check evals/calibrate.mjs && node --check evals/langfuse.mjs && node --check evals/lib/cli.mjs && node --check evals/lib/fingerprint.mjs && node --check evals/lib/eval-config.mjs && node --check evals/lib/evaluators.mjs && node --check evals/lib/workflow-audit.mjs && node --check evals/lib/judges.mjs && node --check evals/lib/langfuse-adapter.mjs && node --check scripts/check-chinese-docs.mjs && node --check scripts/check-secrets.mjs && node --check scripts/generate-eval-engineering-report.mjs",
+    "security:check": "node scripts/check-secrets.mjs",
+    "docs:check": "node scripts/check-chinese-docs.mjs",
+    "test": "node --test test/*.test.mjs",
+    "eval": "node evals/run.mjs --profile local",
+    "eval:validate": "node evals/validate.mjs",
+    "eval:baseline:accept": "node evals/accept-baseline.mjs",
+    "eval:ci": "node evals/run.mjs --profile ci",
+    "eval:live": "node evals/run.mjs --profile live",
+    "eval:live:traced": "node evals/run.mjs --profile live-traced",
+    "eval:live:judged": "node evals/run.mjs --profile live-judged",
+    "eval:compare": "node evals/compare.mjs",
+    "eval:calibrate": "node evals/calibrate.mjs",
+    "eval:golden:export": "node evals/export-golden.mjs",
+    "eval:golden:live": "npm run eval:golden:export && node evals/run.mjs --profile live-judged --dataset .data/evals/copilot-feedback-golden.v1.jsonl --confirm-live",
+    "eval:langfuse:sync": "node evals/langfuse.mjs sync",
+    "eval:langfuse:run": "node evals/langfuse.mjs run --confirm-live",
+    "eval:report": "node scripts/generate-eval-engineering-report.mjs",
+    "verify": "npm run security:check && npm run check && npm run docs:check && npm run eval:validate && npm test && npm run eval:ci"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "dependencies": {
+    "@langfuse/client": "^5.11.0",
+    "@langfuse/otel": "^5.11.0",
+    "@langfuse/tracing": "^5.11.0",
+    "@opentelemetry/resources": "2.10.0",
+    "@opentelemetry/sdk-node": "0.221.0",
+    "@opentelemetry/sdk-trace-base": "^2.10.0",
+    "better-sqlite3": "^13.0.3",
+    "docx": "^9.7.1",
+    "dotenv": "^17.4.2",
+    "pdfkit": "^0.20.2"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
+}

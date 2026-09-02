@@ -1,0 +1,195 @@
+{
+  "$schema": "../schemas/model-catalog.schema.json",
+  "schemaVersion": "copilot-model-catalog.v3",
+  "catalogVersion": "2026-09-01.4",
+  "defaultModelId": "model-router",
+  "models": [
+    {
+      "id": "model-router",
+      "kind": "selection-mode",
+      "modelAlias": "model-router",
+      "displayName": "Auto",
+      "providerLabel": "Model Router",
+      "description": "Selects a concrete model using task, risk, input capability, and runtime evidence",
+      "mark": "router",
+      "modalities": ["text", "image", "file", "audio", "video"],
+      "recommendedFor": ["Default", "When unsure"]
+    },
+    {
+      "id": "intention-fast",
+      "kind": "control-model",
+      "modelAlias": "intention-fast",
+      "displayName": "Intention Fast",
+      "providerLabel": "Control Plane",
+      "description": "Internal logical model for intent detection and routing proposals",
+      "mark": "router",
+      "modalities": ["text", "image", "file", "audio", "video"],
+      "recommendedFor": ["Intent detection", "Routing proposals"]
+    },
+    {
+      "id": "gemini-3-1-flash-lite",
+      "kind": "answer-model",
+      "modelAlias": "gemini-3-1-flash-lite",
+      "displayName": "Gemini 3.1 Flash Lite",
+      "providerLabel": "Google",
+      "description": "Low latency, long context, and broad multimodal input",
+      "mark": "gemini",
+      "modalities": ["text", "image", "file", "audio", "video"],
+      "recommendedFor": ["Fast Q&A", "Long context", "Multimodal"]
+    },
+    {
+      "id": "gemini-3-1-pro-preview",
+      "kind": "answer-model",
+      "modelAlias": "gemini-3-1-pro-preview",
+      "displayName": "Gemini 3.1 Pro Preview",
+      "providerLabel": "Google",
+      "description": "Complex reasoning, long context, and multimodal understanding",
+      "mark": "gemini",
+      "modalities": ["text", "image", "file", "audio", "video"],
+      "recommendedFor": ["Complex reasoning", "Research", "Multimodal"]
+    },
+    {
+      "id": "gpt-5-4-mini",
+      "kind": "answer-model",
+      "modelAlias": "gpt-5-4-mini",
+      "displayName": "GPT-5.4 Mini",
+      "providerLabel": "OpenAI",
+      "description": "General-purpose model balancing speed and quality",
+      "mark": "openai",
+      "modalities": ["text", "image", "file"],
+      "recommendedFor": ["General chat", "Coding", "Documents"]
+    },
+    {
+      "id": "gpt-5-4",
+      "kind": "answer-model",
+      "modelAlias": "gpt-5-4",
+      "displayName": "GPT-5.4",
+      "providerLabel": "OpenAI",
+      "description": "High-quality reasoning, coding, and file understanding",
+      "mark": "openai",
+      "modalities": ["text", "image", "file"],
+      "recommendedFor": ["Complex tasks", "Coding", "Analysis"]
+    },
+    {
+      "id": "gpt-5-5",
+      "kind": "answer-model",
+      "modelAlias": "gpt-5-5",
+      "displayName": "GPT-5.5",
+      "providerLabel": "OpenAI",
+      "description": "Advanced knowledge work and comprehensive reasoning",
+      "mark": "openai",
+      "modalities": ["text", "image", "file"],
+      "recommendedFor": ["Deep reasoning", "Complex coding", "High-quality writing"]
+    },
+    {
+      "id": "claude-sonnet-4-6",
+      "kind": "answer-model",
+      "modelAlias": "claude-sonnet-4-6",
+      "displayName": "Claude Sonnet 4.6",
+      "providerLabel": "Anthropic",
+      "description": "Balanced choice for long-form writing, analysis, and coding",
+      "mark": "claude",
+      "modalities": ["text", "image", "file"],
+      "recommendedFor": ["Long-form writing", "Analysis", "Coding"]
+    },
+    {
+      "id": "claude-opus-4-8",
+      "kind": "answer-model",
+      "modelAlias": "claude-opus-4-8",
+      "displayName": "Claude Opus 4.8",
+      "providerLabel": "Anthropic",
+      "description": "High-complexity reasoning and rigorous content generation",
+      "mark": "claude",
+      "modalities": ["text", "image", "file"],
+      "recommendedFor": ["Complex analysis", "Research", "Long-form writing"]
+    },
+    {
+      "id": "deepseek-v4-flash",
+      "kind": "answer-model",
+      "modelAlias": "deepseek-v4-flash",
+      "displayName": "DeepSeek V4 Flash",
+      "providerLabel": "DeepSeek",
+      "description": "Fast text reasoning and Chinese-language tasks",
+      "mark": "deepseek",
+      "modalities": ["text"],
+      "recommendedFor": ["Chinese Q&A", "Fast reasoning"]
+    },
+    {
+      "id": "deepseek-v4-pro",
+      "kind": "answer-model",
+      "modelAlias": "deepseek-v4-pro",
+      "displayName": "DeepSeek V4 Pro",
+      "providerLabel": "DeepSeek",
+      "description": "Complex text reasoning and coding tasks",
+      "mark": "deepseek",
+      "modalities": ["text"],
+      "recommendedFor": ["Reasoning", "Coding", "Chinese-language tasks"]
+    },
+    {
+      "id": "qwen-3-6-plus",
+      "kind": "answer-model",
+      "modelAlias": "qwen-3-6-plus",
+      "displayName": "Qwen 3.6 Plus",
+      "providerLabel": "Qwen",
+      "description": "Chinese-language, multimodal, and general knowledge tasks",
+      "mark": "qwen",
+      "modalities": ["text", "image", "video"],
+      "recommendedFor": ["Chinese", "Images", "Video"]
+    },
+    {
+      "id": "kimi-k2-6",
+      "kind": "answer-model",
+      "modelAlias": "kimi-k2-6",
+      "displayName": "Kimi K2.6",
+      "providerLabel": "Moonshot AI",
+      "description": "Long text, Chinese-language, and image understanding",
+      "mark": "kimi",
+      "modalities": ["text", "image"],
+      "recommendedFor": ["Long text", "Chinese", "Images"]
+    },
+    {
+      "id": "minimax-m3",
+      "kind": "answer-model",
+      "modelAlias": "minimax-m3",
+      "displayName": "MiniMax M3",
+      "providerLabel": "MiniMax",
+      "description": "General multimodal content understanding",
+      "mark": "minimax",
+      "modalities": ["text", "image", "video"],
+      "recommendedFor": ["Multimodal", "Chinese", "Content creation"]
+    },
+    {
+      "id": "glm-5-2",
+      "kind": "answer-model",
+      "modelAlias": "glm-5-2",
+      "displayName": "GLM 5.2",
+      "providerLabel": "Z.ai",
+      "description": "Chinese-language knowledge, reasoning, and general text tasks",
+      "mark": "glm",
+      "modalities": ["text"],
+      "recommendedFor": ["Chinese", "Knowledge Q&A", "Reasoning"]
+    },
+    {
+      "id": "grok-4-3",
+      "kind": "answer-model",
+      "modelAlias": "grok-4-3",
+      "displayName": "Grok 4.3",
+      "providerLabel": "xAI",
+      "description": "General reasoning and image understanding",
+      "mark": "grok",
+      "modalities": ["text", "image"],
+      "recommendedFor": ["General reasoning", "Images"]
+    },
+    {
+      "id": "qwen3-coder-next",
+      "kind": "answer-model",
+      "modelAlias": "qwen3-coder-next",
+      "displayName": "Qwen3 Coder Next",
+      "providerLabel": "Qwen",
+      "description": "Built for software engineering and code generation",
+      "mark": "qwen",
+      "modalities": ["text"],
+      "recommendedFor": ["Code generation", "Debugging", "Engineering tasks"]
+    }
+  ]
+}

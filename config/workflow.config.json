@@ -1,0 +1,18 @@
+{
+  "$schema": "../schemas/workflow-config.schema.json",
+  "schemaVersion": "copilot-workflow-config.v1",
+  "workflowVersion": "3.0.0",
+  "invocationName": "run-personal-copilot",
+  "agentRegistry": "../agents/registry.json",
+  "routingConfiguration": "./routing.config.json",
+  "stages": [
+    "load-context",
+    "intent-routing",
+    "agent-routing",
+    "model-routing",
+    "deployment-routing",
+    "execute-agent",
+    "capture-memory",
+    "emit-result"
+  ]
+}

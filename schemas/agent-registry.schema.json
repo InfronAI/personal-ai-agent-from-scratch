@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://personal-copilot.local/schemas/agent-registry.v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "registryVersion", "rootAgentId", "agents"],
+  "properties": {
+    "schemaVersion": {"const": "copilot-agent-registry.v1"},
+    "registryVersion": {"type": "string", "minLength": 1},
+    "rootAgentId": {"type": "string", "minLength": 1},
+    "agents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "displayName", "description", "systemPrompt", "capabilities", "routableAgentIds"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]{2,63}$"},
+          "displayName": {"type": "string", "minLength": 1},
+          "description": {"type": "string"},
+          "directResponsePrompt": {"type": "string", "minLength": 1},
+          "systemPrompt": {"type": "string", "minLength": 1},
+          "capabilities": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "routableAgentIds": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

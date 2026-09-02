@@ -1,0 +1,226 @@
+{
+  "$schema": "./schemas/eval-config.schema.json",
+  "schemaVersion": "copilot-eval-config.v1",
+  "project": "personal-copilot-from-scratch",
+  "benchmarkCatalog": {
+    "file": "benchmarks/catalog.v1.json",
+    "version": "2026-09-01-r2"
+  },
+  "datasets": {
+    "core": {
+      "file": "datasets/copilot-core.v3.jsonl",
+      "version": "copilot-core.v3",
+      "dimension": "product_contract",
+      "purpose": "核心路由、工具、记忆、文档和输出契约"
+    },
+    "multiturn": {
+      "file": "datasets/copilot-multiturn.v3.jsonl",
+      "version": "copilot-multiturn.v3",
+      "dimension": "agent_capability",
+      "purpose": "多轮上下文、指代、纠正和语言切换"
+    },
+    "adversarial": {
+      "file": "datasets/copilot-adversarial.v3.jsonl",
+      "version": "copilot-adversarial.v3",
+      "dimension": "safety_compliance",
+      "purpose": "Harness、恢复、安全与策略覆盖对抗场景"
+    },
+    "general-knowledge": {
+      "file": "datasets/copilot-general-knowledge.v1.jsonl",
+      "version": "copilot-general-knowledge.v1",
+      "dimension": "general_knowledge",
+      "purpose": "稳定事实、数学、科学、历史和受约束语言任务"
+    },
+    "vertical-capabilities": {
+      "file": "datasets/copilot-vertical-capabilities.v1.jsonl",
+      "version": "copilot-vertical-capabilities.v1",
+      "dimension": "vertical_capability",
+      "purpose": "医疗、软件、研究、分析、教学和文档场景能力"
+    },
+    "performance-resilience": {
+      "file": "datasets/copilot-performance-resilience.v1.jsonl",
+      "version": "copilot-performance-resilience.v1",
+      "dimension": "performance_resilience",
+      "purpose": "模型、Token、工具、上下文、时延和恢复预算"
+    },
+    "safety-compliance": {
+      "file": "datasets/copilot-safety-compliance.v1.jsonl",
+      "version": "copilot-safety-compliance.v1",
+      "dimension": "safety_compliance",
+      "purpose": "Prompt Injection、间接注入、高风险建议和滥用边界"
+    },
+    "agent-capabilities": {
+      "file": "datasets/copilot-agent-capabilities.v1.jsonl",
+      "version": "copilot-agent-capabilities.v1",
+      "dimension": "agent_capability",
+      "purpose": "澄清、记忆、工具证据、Artifact 和多轮约束保持"
+    },
+    "benchmark-knowledge-reasoning": {
+      "file": "datasets/copilot-benchmark-knowledge-reasoning.v1.jsonl",
+      "version": "copilot-benchmark-knowledge-reasoning.v1",
+      "dimension": "general_knowledge",
+      "purpose": "MMLU-Pro、GPQA、GSM8K、TruthfulQA 与 IFEval 方法适配"
+    },
+    "benchmark-professional-domains": {
+      "file": "datasets/copilot-benchmark-professional-domains.v1.jsonl",
+      "version": "copilot-benchmark-professional-domains.v1",
+      "dimension": "vertical_capability",
+      "purpose": "医疗、法律、金融、软件工程、长上下文与多模态专业能力"
+    },
+    "benchmark-agentic": {
+      "file": "datasets/copilot-benchmark-agentic.v1.jsonl",
+      "version": "copilot-benchmark-agentic.v1",
+      "dimension": "agent_capability",
+      "purpose": "BFCL、GAIA 与 tau-bench 方法适配的工具和多轮任务"
+    },
+    "benchmark-safety": {
+      "file": "datasets/copilot-benchmark-safety.v1.jsonl",
+      "version": "copilot-benchmark-safety.v1",
+      "dimension": "safety_compliance",
+      "purpose": "HarmBench 与 XSTest 方法适配的稳健拒绝和过度拒绝对照"
+    },
+    "benchmark-grounded-research": {
+      "file": "datasets/copilot-benchmark-grounded-research.v1.jsonl",
+      "version": "copilot-benchmark-grounded-research.v1",
+      "dimension": "agent_capability",
+      "purpose": "CRAG 与 BrowseComp 方法适配的长尾检索、多跳核验、冲突处理和诚实缺失"
+    },
+    "benchmark-memory-personalization": {
+      "file": "datasets/copilot-benchmark-memory-personalization.v1.jsonl",
+      "version": "copilot-benchmark-memory-personalization.v1",
+      "dimension": "agent_capability",
+      "purpose": "LongMemEval 与 LoCoMo 方法适配的跨 Session 记忆、更新、时间推理和个性化"
+    },
+    "benchmark-multilingual-instruction": {
+      "file": "datasets/copilot-benchmark-multilingual-instruction.v1.jsonl",
+      "version": "copilot-benchmark-multilingual-instruction.v1",
+      "dimension": "agent_capability",
+      "purpose": "Multi-IF 方法适配的多语言、多轮累积约束、纠正和格式遵循"
+    },
+    "benchmark-high-stakes-professional": {
+      "file": "datasets/copilot-benchmark-high-stakes-professional.v1.jsonl",
+      "version": "copilot-benchmark-high-stakes-professional.v1",
+      "dimension": "vertical_capability",
+      "purpose": "HealthBench 与 FinanceBench 方法适配的高风险专业沟通、证据绑定和数值推理"
+    },
+    "benchmark-cybersecurity": {
+      "file": "datasets/copilot-benchmark-cybersecurity.v1.jsonl",
+      "version": "copilot-benchmark-cybersecurity.v1",
+      "dimension": "safety_compliance",
+      "purpose": "CyberSecEval 4 方法适配的恶意拒绝、良性不过拒、注入防护与防御分析"
+    },
+    "benchmark-software-data": {
+      "file": "datasets/copilot-benchmark-software-data.v1.jsonl",
+      "version": "copilot-benchmark-software-data.v1",
+      "dimension": "vertical_capability",
+      "purpose": "LiveCodeBench、SWE-Lancer 与 Spider 2.0 方法适配的软件实现、修复、决策和企业数据任务"
+    }
+  },
+  "defaults": {
+    "datasetIds": ["core", "multiturn", "adversarial", "general-knowledge", "vertical-capabilities", "performance-resilience", "safety-compliance", "agent-capabilities", "benchmark-knowledge-reasoning", "benchmark-professional-domains", "benchmark-agentic", "benchmark-safety", "benchmark-grounded-research", "benchmark-memory-personalization", "benchmark-multilingual-instruction", "benchmark-high-stakes-professional", "benchmark-cybersecurity", "benchmark-software-data"],
+    "selectors": {
+      "cases": [],
+      "suites": [],
+      "tags": [],
+      "risks": [],
+      "taskTypes": [],
+      "labelStatuses": [],
+      "liveEligibleOnly": false
+    },
+    "execution": {
+      "mode": "offline-scripted",
+      "traceLive": false
+    },
+    "judge": {
+      "enabled": false,
+      "catalog": "evaluators/judges.v1.json",
+      "model": "openai/gpt-4o",
+      "definitionIds": ["intent_semantic_fit", "answer_task_success"],
+      "temperature": 0,
+      "maxTokens": 900
+    },
+    "gate": {
+      "failSeverities": ["blocking"],
+      "diagnosticDebtRatchet": false,
+      "baseline": "baselines/current.json",
+      "minimumCases": 1
+    },
+    "report": {
+      "directory": "results",
+      "output": null
+    }
+  },
+  "profiles": {
+    "local": {},
+    "ci": {
+      "gate": {
+        "diagnosticDebtRatchet": true,
+        "minimumCases": 140
+      },
+      "report": {
+        "output": "results/ci-latest.json"
+      }
+    },
+    "live": {
+      "selectors": {
+        "liveEligibleOnly": true
+      },
+      "execution": {
+        "mode": "live"
+      }
+    },
+    "live-traced": {
+      "extends": "live",
+      "execution": {
+        "traceLive": true
+      }
+    },
+    "live-judged": {
+      "extends": "live-traced",
+      "judge": {
+        "enabled": true
+      }
+    }
+  },
+  "comparison": {
+    "failOnCoverageChange": true,
+    "failOnCandidateBlockingFailure": true,
+    "outputDirectory": "results"
+  },
+  "calibration": {
+    "requiredLabelStatus": "human-reviewed",
+    "positiveClass": "fail",
+    "requireAllAnnotationsMatched": true,
+    "outputDirectory": "results"
+  },
+  "goldenSet": {
+    "source": "user-feedback",
+    "candidateTable": "eval_feedback_candidates",
+    "evidenceTable": "eval_evidence_snapshots",
+    "goldenTable": "eval_golden_items",
+    "evidenceSchemaVersion": "copilot-eval-evidence.v1",
+    "evidenceScope": "target-trace+session-prefix",
+    "sessionBoundary": "through-evaluated-turn",
+    "requiredReviewStatus": "approved",
+    "requiredLabelStatus": "human-reviewed",
+    "export": {
+      "file": "../.data/evals/copilot-feedback-golden.v1.jsonl",
+      "datasetVersion": "copilot-feedback-golden.v1"
+    }
+  },
+  "langfuse": {
+    "datasetName": "personal-copilot-live-eval-v4",
+    "datasetDescription": "copilot 真实 Agent 工作流的版本化在线评测集。数据由仓库内受评审的 JSONL 样本同步。",
+    "sync": {
+      "datasetIds": ["core", "multiturn", "adversarial", "general-knowledge", "vertical-capabilities", "performance-resilience", "safety-compliance", "agent-capabilities", "benchmark-knowledge-reasoning", "benchmark-professional-domains", "benchmark-agentic", "benchmark-safety", "benchmark-grounded-research", "benchmark-memory-personalization", "benchmark-multilingual-instruction", "benchmark-high-stakes-professional", "benchmark-cybersecurity", "benchmark-software-data"],
+      "liveEligibleOnly": true,
+      "concurrency": 4
+    },
+    "experiment": {
+      "name": "copilot 系统评测",
+      "description": "在受版本控制的数据集上执行真实 copilot 工作流，并记录逐项契约分数。",
+      "maxConcurrency": 2,
+      "outputDirectory": "results"
+    }
+  }
+}

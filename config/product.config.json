@@ -1,0 +1,9 @@
+{
+  "$schema": "../schemas/product-config.schema.json",
+  "schemaVersion": "personal-copilot-product.v1",
+  "productId": "personal-copilot-from-scratch",
+  "displayName": "Personal Copilot",
+  "serviceName": "personal-copilot",
+  "serviceNamespace": "personal-copilot-runtime",
+  "description": "一个数据驱动、Eval 驱动、可配置路由的通用 Personal Copilot 参考实现。"
+}

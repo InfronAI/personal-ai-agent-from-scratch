@@ -1,0 +1,200 @@
+{
+  "schemaVersion": "copilot-benchmark-catalog.v1",
+  "catalogVersion": "2026-09-01-r2",
+  "adaptationPolicy": {
+    "mode": "methodology-inspired-original",
+    "description": "只复用公开 Benchmark 的能力定义、任务形态和评分思想；项目内题目、上下文与期望答案均为原创，不复制官方测试集，也不把结果表述为官方 Benchmark 分数。",
+    "requiredItemFields": ["benchmark_family", "benchmark_task", "benchmark_reference_id", "benchmark_adaptation"]
+  },
+  "benchmarks": [
+    {
+      "id": "mmlu-pro",
+      "name": "MMLU-Pro",
+      "scope": "跨学科知识与多步推理",
+      "officialUrl": "https://github.com/TIGER-AI-Lab/MMLU-Pro",
+      "methodology": "使用更具推理性的多学科问题与更高干扰项密度，观察知识、推理和 Prompt 稳定性。"
+    },
+    {
+      "id": "gpqa",
+      "name": "GPQA",
+      "scope": "研究生级科学推理",
+      "officialUrl": "https://arxiv.org/abs/2311.12022",
+      "methodology": "用需要专业知识与多步推导、难以通过普通检索直接回答的问题测试深层科学推理。"
+    },
+    {
+      "id": "gsm8k",
+      "name": "GSM8K",
+      "scope": "多步算术文字题",
+      "officialUrl": "https://github.com/openai/grade-school-math",
+      "methodology": "通过由多次基础运算组成的文字题测试数量关系建模和计算正确性。"
+    },
+    {
+      "id": "truthfulqa",
+      "name": "TruthfulQA",
+      "scope": "常见误解与事实诚实性",
+      "officialUrl": "https://github.com/sylinrl/TruthfulQA",
+      "methodology": "针对人类常见误解设计问题，同时衡量答案真实性和信息量，防止迎合错误前提。"
+    },
+    {
+      "id": "ifeval",
+      "name": "IFEval",
+      "scope": "可验证指令遵循",
+      "officialUrl": "https://github.com/google-research/google-research/tree/master/instruction_following_eval",
+      "methodology": "把格式、词数、包含或排除项等约束转换为确定性检查，按 Prompt 级全部约束是否同时满足计分。"
+    },
+    {
+      "id": "pubmedqa",
+      "name": "PubMedQA",
+      "scope": "生物医学证据问答",
+      "officialUrl": "https://github.com/pubmedqa/pubmedqa",
+      "methodology": "基于给定研究摘要完成 yes/no/maybe 判断，并要求结论由提供的证据支持。"
+    },
+    {
+      "id": "legalbench",
+      "name": "LegalBench",
+      "scope": "法律规则、解释与适用",
+      "officialUrl": "https://github.com/HazyResearch/legalbench",
+      "methodology": "覆盖规则回忆、规则适用、解释、修辞理解和文本抽取等不同法律推理形态。"
+    },
+    {
+      "id": "finqa",
+      "name": "FinQA",
+      "scope": "财务文本与表格数值推理",
+      "officialUrl": "https://finqasite.github.io/",
+      "methodology": "让答案同时依赖财务叙述、表格数字和可复核的算术程序。"
+    },
+    {
+      "id": "swe-bench",
+      "name": "SWE-bench",
+      "scope": "仓库级软件工程问题解决",
+      "officialUrl": "https://github.com/SWE-bench/SWE-bench",
+      "methodology": "依据真实 Issue、代码上下文和测试结果评价定位、补丁范围与回归验证是否解决问题。"
+    },
+    {
+      "id": "longbench",
+      "name": "LongBench",
+      "scope": "双语长上下文理解",
+      "officialUrl": "https://github.com/THUDM/LongBench",
+      "methodology": "覆盖长文档、多文档、长对话、代码与结构化数据中的检索、汇总和推理。"
+    },
+    {
+      "id": "bfcl",
+      "name": "Berkeley Function Calling Leaderboard",
+      "scope": "函数选择、参数、拒绝与多轮工具使用",
+      "officialUrl": "https://github.com/EnlightenedAI/BFCL",
+      "methodology": "用可执行函数调用检查工具相关性、参数正确性、多调用、多轮状态、记忆与错误恢复。"
+    },
+    {
+      "id": "gaia",
+      "name": "GAIA",
+      "scope": "通用 AI Assistant 多步任务",
+      "officialUrl": "https://arxiv.org/abs/2311.12983",
+      "methodology": "以具有唯一可验证答案的现实任务组合推理、搜索、多模态和工具使用。"
+    },
+    {
+      "id": "tau-bench",
+      "name": "tau-bench",
+      "scope": "真实领域中的 Tool-Agent-User 交互",
+      "officialUrl": "https://github.com/sierra-research/tau2-bench",
+      "methodology": "通过领域 Policy、模拟用户、API 和最终数据库状态评价任务成功与多轮一致性。"
+    },
+    {
+      "id": "harmbench",
+      "name": "HarmBench",
+      "scope": "自动红队与稳健拒绝",
+      "officialUrl": "https://github.com/centerforaisafety/HarmBench",
+      "methodology": "使用多类攻击与有害行为切片评价越狱成功率、拒绝稳健性和防御泛化。"
+    },
+    {
+      "id": "xstest",
+      "name": "XSTest",
+      "scope": "过度拒绝与安全边界校准",
+      "officialUrl": "https://github.com/paul-rottger/xstest",
+      "methodology": "以安全 Prompt 和词面相近的不安全对照项区分合理拒绝与过度拒绝。"
+    },
+    {
+      "id": "mmmu",
+      "name": "MMMU",
+      "scope": "专家级多学科多模态理解",
+      "officialUrl": "https://mmmu-benchmark.github.io/",
+      "methodology": "组合异构图像感知、专业知识和多步推理，覆盖图表、示意图、表格等视觉材料。"
+    },
+    {
+      "id": "crag",
+      "name": "CRAG",
+      "scope": "多领域、长尾与时效性 RAG",
+      "officialUrl": "https://github.com/facebookresearch/CRAG",
+      "methodology": "用不同实体流行度、时间动态和问题类型评价检索充分性、事实正确性、诚实缺失与幻觉惩罚。"
+    },
+    {
+      "id": "browsecomp",
+      "name": "BrowseComp",
+      "scope": "难检索、多跳且可验证的浏览任务",
+      "officialUrl": "https://openai.com/index/browsecomp/",
+      "methodology": "通过需要持续浏览和多条线索拼接、但最终答案短且可验证的问题评价搜索规划与证据合成。"
+    },
+    {
+      "id": "longmemeval",
+      "name": "LongMemEval",
+      "scope": "聊天助手长期交互记忆",
+      "officialUrl": "https://github.com/xiaowu0162/LongMemEval",
+      "methodology": "覆盖信息抽取、多 Session 推理、知识更新、时间推理和无证据弃答，分离记忆检索与最终回答质量。"
+    },
+    {
+      "id": "locomo",
+      "name": "LoCoMo",
+      "scope": "超长对话中的事件、因果与个性化记忆",
+      "officialUrl": "https://github.com/snap-research/locomo",
+      "methodology": "使用跨多个 Session 的人物、事件、时间与因果关系评价问答、事件归纳和长期一致性。"
+    },
+    {
+      "id": "multi-if",
+      "name": "Multi-IF",
+      "scope": "多轮、多语言指令遵循",
+      "officialUrl": "https://github.com/facebookresearch/Multi-IF",
+      "methodology": "在多语言三轮交互中累积、更新和撤销可验证约束，检查最终回答是否保留所有仍然有效的要求。"
+    },
+    {
+      "id": "healthbench",
+      "name": "HealthBench",
+      "scope": "真实健康对话中的有用性与安全性",
+      "officialUrl": "https://openai.com/index/healthbench/",
+      "methodology": "以场景专属、重要性加权的专业 Rubric 检查信息完整性、不确定性、分诊边界、沟通适配和应避免内容。"
+    },
+    {
+      "id": "financebench",
+      "name": "FinanceBench",
+      "scope": "财务文档证据问答",
+      "officialUrl": "https://github.com/patronus-ai/financebench",
+      "methodology": "让回答绑定给定财务证据，覆盖信息检索、数值计算、逻辑推理和答案证据定位，重点惩罚无依据结论。"
+    },
+    {
+      "id": "cyberseceval-4",
+      "name": "CyberSecEval 4",
+      "scope": "网络安全攻防边界与防御能力",
+      "officialUrl": "https://github.com/meta-llama/PurpleLlama/tree/main/CybersecurityBenchmarks",
+      "methodology": "同时测试恶意请求拒绝、良性安全任务不过度拒绝、Prompt Injection 防护、威胁情报理解和安全修复能力。"
+    },
+    {
+      "id": "livecodebench",
+      "name": "LiveCodeBench",
+      "scope": "低污染、持续更新的代码能力",
+      "officialUrl": "https://github.com/LiveCodeBench/LiveCodeBench",
+      "methodology": "除代码生成外同时评价自修复、代码执行和测试输出预测，并用可执行断言保持评分确定性。"
+    },
+    {
+      "id": "swe-lancer",
+      "name": "SWE-Lancer",
+      "scope": "具有真实经济价值的软件工程任务",
+      "officialUrl": "https://openai.com/index/swe-lancer/",
+      "methodology": "覆盖端到端实现和工程管理决策，用测试或明确验收标准评价方案是否真正满足真实需求。"
+    },
+    {
+      "id": "spider-2",
+      "name": "Spider 2.0",
+      "scope": "企业级 Text-to-SQL 与数据工作流",
+      "officialUrl": "https://github.com/xlang-ai/Spider2",
+      "methodology": "基于复杂 Schema、方言和企业工作流评价需求澄清、SQL 生成、结果可执行性和数据安全边界。"
+    }
+  ]
+}

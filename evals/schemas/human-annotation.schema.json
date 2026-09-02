@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://personal-copilot.local/schemas/copilot-human-annotation.v1.json",
+  "title": "Personal Copilot 人工 Judge 标注 v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "evaluator", "human_label", "label_status", "reviewer", "reviewed_at"],
+  "properties": {
+    "id": {"type": "string"},
+    "evaluator": {"type": "string"},
+    "human_label": {"enum": ["pass", "fail"]},
+    "label_status": {"const": "human-reviewed"},
+    "reviewer": {"type": "string", "minLength": 1},
+    "reviewed_at": {"type": "string", "format": "date-time"},
+    "failure_codes": {"type": "array", "items": {"type": "string"}},
+    "notes": {"type": "string"}
+  }
+}

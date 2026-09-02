@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://personal-copilot.local/schemas/copilot-eval-item.v1.json",
+  "title": "Personal Copilot Eval 数据项 v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "suite", "input", "expected", "metadata"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{7,159}$"},
+    "suite": {"type": "string", "minLength": 1},
+    "input": {
+      "type": "object",
+      "required": ["messages"],
+      "properties": {
+        "messages": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["role", "content"],
+            "properties": {
+              "role": {"enum": ["system", "user", "assistant", "tool"]},
+              "content": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "model": {"type": "string", "minLength": 1},
+        "script": {"type": "array"},
+        "memory_seed": {"type": "array"},
+        "artifact_seed": {"type": "array"},
+        "artifact_names": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "search_results": {"type": "array"},
+        "search_answer": {"type": ["string", "null"]},
+        "search_error": {"type": "object"}
+      }
+    },
+    "expected": {"type": "object"},
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "scope", "subject", "trace", "session", "coverage", "provenance", "capturedAt", "contentHash"],
+      "properties": {
+        "schemaVersion": {"const": "copilot-eval-evidence.v1"},
+        "scope": {"const": "target-trace+session-prefix"},
+        "subject": {
+          "type": "object",
+          "required": ["type", "requestId", "traceId", "sessionId", "turnIndex"],
+          "properties": {
+            "type": {"const": "turn"},
+            "requestId": {"type": "string", "minLength": 1},
+            "traceId": {"type": ["string", "null"]},
+            "sessionId": {"type": "string", "minLength": 1},
+            "turnIndex": {"type": "integer", "minimum": 1}
+          }
+        },
+        "trace": {"type": "object"},
+        "session": {"type": "object"},
+        "coverage": {"type": "object"},
+        "provenance": {"type": "object"},
+        "capturedAt": {"type": "string", "format": "date-time"},
+        "contentHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["dataset_version", "task_type", "risk", "source", "label_status"],
+      "properties": {
+        "dataset_version": {"type": "string", "minLength": 1},
+        "task_type": {"type": "string", "minLength": 1},
+        "risk": {"enum": ["low", "medium", "high"]},
+        "source": {"type": "string", "minLength": 1},
+        "label_status": {"enum": ["specification-derived", "code-derived", "draft", "human-reviewed"]},
+        "evaluation_dimension": {"enum": ["product_contract", "general_knowledge", "vertical_capability", "performance_resilience", "safety_compliance", "agent_capability"]},
+        "capability": {"type": "string", "minLength": 1},
+        "domain": {"type": "string", "minLength": 1},
+        "difficulty": {"enum": ["foundational", "intermediate", "advanced", "adversarial"]},
+        "interaction_pattern": {"enum": ["single_turn", "multi_turn", "tool_augmented", "multimodal"]},
+        "decision_use": {"enum": ["release_gate", "regression", "diagnostic", "model_selection"]},
+        "benchmark_family": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]+$"},
+        "benchmark_task": {"type": "string", "minLength": 1},
+        "benchmark_reference_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]+$"},
+        "benchmark_adaptation": {"const": "methodology-inspired-original"},
+        "live_eligible": {"type": "boolean"},
+        "tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "source_trace_id": {"type": ["string", "null"]},
+        "source_request_id": {"type": "string"},
+        "source_session_id": {"type": "string"},
+        "evidence_snapshot_id": {"type": "string", "pattern": "^evd-[a-f0-9]{24}$"},
+        "evidence_schema_version": {"const": "copilot-eval-evidence.v1"},
+        "evidence_content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "evidence_scope": {"const": "target-trace+session-prefix"},
+        "reviewed_by": {"type": "string"},
+        "reviewed_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  }
+}
